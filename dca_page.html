@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DCA Planner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>DCA (Dollar-Cost Averaging) Planner</h1>
+  <form id="dcaForm">
+    <div class="input-group">
+      <label>Monthly Investment (BGN)</label><input type="number" step="any" id="monthlyInvestment" placeholder="e.g. 500">
+      <label>Investment Duration (Months)</label><input type="number" step="any" id="duration" placeholder="e.g. 12">
+      <label>BTC Price (USD)</label><input type="number" step="any" id="btcPrice" placeholder="e.g. 90000">
+      <label>USD to BGN Rate</label><input type="number" step="any" id="usdToBgn" placeholder="e.g. 1.78">
+    </div>
+    <button type="submit">Calculate</button>
+  </form>
+  <div id="dcaOutput" class="output"></div>
+  <script src="dca.js"></script>
+</body>
+</html>
