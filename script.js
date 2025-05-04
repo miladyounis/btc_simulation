@@ -1,5 +1,17 @@
-document.getElementById("btcForm").addEventListener("submit", function (e) {
+document.getElementById("btcForm").addEventListener("submit", async function (e) {
   e.preventDefault();
+
+  // Fetch USD to BGN rate automatically
+  let usdToBgn;
+  try {
+    const response = await fetch('https://api.frankfurter.app/latest?from=USD&to=BGN');
+    const data = await response.json();
+    usdToBgn = data.rates.BGN;
+  } catch (error) {
+    console.error("Failed to fetch exchange rate:", error);
+    alert("Error fetching exchange rate. Using fallback rate: 1.80 BGN/USD.");
+    usdToBgn = 1.80; // Fallback rate
+  }
 
   const currentBtc = parseFloat(document.getElementById("currentBtc").value);
   const minBtc = parseFloat(document.getElementById("minBtc").value);
@@ -7,12 +19,11 @@ document.getElementById("btcForm").addEventListener("submit", function (e) {
   const buyPrice = parseFloat(document.getElementById("buyPrice").value);
   const debt = parseFloat(document.getElementById("debt").value);
   const targetProfit = parseFloat(document.getElementById("targetProfit").value);
-  const usdToBgn = parseFloat(document.getElementById("usdToBgn").value);
   const targetBtc = parseFloat(document.getElementById("targetBtc").value);
   const feePercent = parseFloat(document.getElementById("feePercent").value);
 
   const btcSold = +(currentBtc - minBtc).toFixed(8);
-  if (btcSold <= 0) return (output.innerText = "❌ Error: Not enough BTC to sell.");
+  if (btcSold <= 0) return (document.getElementById("output").innerText = "❌ Error: Not enough BTC to sell.");
 
   const usdFromSale = +(btcSold * sellPrice * (1 - feePercent / 100)).toFixed(2);
   const bgnFromSale = +(usdFromSale * usdToBgn).toFixed(2);
@@ -40,10 +51,10 @@ document.getElementById("btcForm").addEventListener("submit", function (e) {
 ==================================================
 **BTC TRADING SIMULATION**
 ==================================================
-
 📊 Current Holdings
 - Current BTC: ${currentBtc.toFixed(8)}
 - Debt: ${debt.toLocaleString()} BGN
+- Exchange Rate: 1 USD = ${usdToBgn.toFixed(4)} BGN (auto-fetched)
 
 💸 Trade Execution
 - Sold ${btcSold.toFixed(8)} BTC @ $${sellPrice} → $${usdFromSale} | ${bgnFromSale} BGN (after ${feePercent}% fee)
@@ -60,7 +71,6 @@ document.getElementById("btcForm").addEventListener("submit", function (e) {
 🎯 Profit Target
 - Required SELL price for ${targetProfit} BGN profit: $${requiredSell}
 - Required BUYBACK price for ${targetProfit} BGN profit: $${requiredBuy}
-
 ==================================================
 `;
 
