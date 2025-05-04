@@ -1,42 +1,16 @@
 document.getElementById('dcaForm').addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  // Show loading state
-  const outputElement = document.getElementById('dcaOutput');
-  outputElement.innerHTML = '<p>Fetching exchange rates...</p>';
-
-  // Fetch latest USD to BGN rate with multiple fallback options
-  let usdToBgn = 1.80; // Default fallback rate
+  // Fetch USD to BGN rate automatically
+  let usdToBgn;
   try {
-    // First try Frankfurter API
-    const response = await fetch('https://api.frankfurter.app/latest?from=USD&to=BGN', {
-      headers: {
-        'Accept': 'application/json'
-      }
-    });
-    
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    
+    const response = await fetch('https://api.frankfurter.app/latest?from=USD&to=BGN');
     const data = await response.json();
-    if (data.rates && data.rates.BGN) {
-      usdToBgn = data.rates.BGN;
-    } else {
-      throw new Error('Invalid response format');
-    }
+    usdToBgn = data.rates.BGN;
   } catch (error) {
-    console.warn("Primary API failed, trying fallback...", error);
-    
-    try {
-      // Fallback to ExchangeRate-API
-      const fallbackResponse = await fetch('https://open.er-api.com/v6/latest/USD');
-      const fallbackData = await fallbackResponse.json();
-      if (fallbackData.rates && fallbackData.rates.BGN) {
-        usdToBgn = fallbackData.rates.BGN;
-      }
-    } catch (fallbackError) {
-      console.error("All exchange rate APIs failed:", fallbackError);
-      outputElement.innerHTML += `<p class="warning">⚠️ Using default rate: 1 USD = 1.80 BGN</p>`;
-    }
+    console.error("Failed to fetch exchange rate:", error);
+    alert("Error fetching exchange rate. Using fallback rate: 1.80 BGN/USD.");
+    usdToBgn = 1.80; // Fallback rate
   }
 
   // Proceed with calculations
