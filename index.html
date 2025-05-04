@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BTC Simulation</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>BTC Simulation</h1>
+    <form id="btcForm">
+      <div class="input-group">
+        <label>Current BTC</label><input type="number" step="any" id="currentBtc" value="0.475">
+        <label>Min BTC to Keep</label><input type="number" step="any" id="minBtc" value="0.25">
+        <label>Sell Price (USD)</label><input type="number" step="any" id="sellPrice" value="250000">
+        <label>Buyback Price (USD)</label><input type="number" step="any" id="buyPrice" value="90000">
+        <label>Debt (BGN)</label><input type="number" step="any" id="debt" value="50000">
+        <label>Target Profit (BGN)</label><input type="number" step="any" id="targetProfit" value="75000">
+        <label>USD to BGN</label><input type="number" step="any" id="usdToBgn" value="1.78">
+        <label>Target BTC</label><input type="number" step="any" id="targetBtc" value="0.5">
+        <label>Fee Percent</label><input type="number" step="any" id="feePercent" value="1.0">
+      </div>
+      <button type="submit">Run Simulation</button>
+    </form>
+    <pre id="output"></pre>
+  </div>
+  <script src="script.js"></script>
+</body
