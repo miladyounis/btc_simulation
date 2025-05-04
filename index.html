@@ -8,28 +8,43 @@
 </head>
 <body>
   <nav>
-  <ul>
-    <li><a href="index.html">BTC Sell/Buyback Simulator</a></li>
-    <li><a href="dca_page.html">DCA Planner</a></li>
-  </ul>
+    <ul>
+      <li><a href="index.html">BTC Sell/Buyback Simulator</a></li>
+      <li><a href="dca_page.html">DCA Planner</a></li>
+    </ul>
   </nav>
   <div class="container">
     <h1>BTC Simulation</h1>
     <form id="btcForm">
-  <div class="input-group">
-    <label>Current BTC</label><input type="number" step="any" id="currentBtc" placeholder="e.g. 0.475">
-    <label>Min BTC to Keep</label><input type="number" step="any" id="minBtc" placeholder="e.g. 0.25">
-    <label>Sell Price (USD)</label><input type="number" step="any" id="sellPrice" placeholder="e.g. 250000">
-    <label>Buyback Price (USD)</label><input type="number" step="any" id="buyPrice" placeholder="e.g. 90000">
-    <label>Debt (BGN)</label><input type="number" step="any" id="debt" placeholder="e.g. 50000">
-    <label>Target Profit (BGN)</label><input type="number" step="any" id="targetProfit" placeholder="e.g. 75000">
-    <label>USD to BGN</label><input type="number" step="any" id="usdToBgn" placeholder="e.g. 1.78">
-    <label>Target BTC</label><input type="number" step="any" id="targetBtc" placeholder="e.g. 0.5">
-    <label>Fee Percent</label><input type="number" step="any" id="feePercent" placeholder="e.g. 1.0">
-  </div>
-  <button type="submit">Run Simulation</button>
-   </form>
+      <div class="input-group">
+        <label>Current BTC</label>
+        <input type="number" step="any" id="currentBtc" placeholder="e.g. 0.475" required>
+        
+        <label>Min BTC to Keep</label>
+        <input type="number" step="any" id="minBtc" placeholder="e.g. 0.25" required>
+        
+        <label>Sell Price (USD)</label>
+        <input type="number" step="any" id="sellPrice" placeholder="e.g. 250000" required>
+        
+        <label>Buyback Price (USD)</label>
+        <input type="number" step="any" id="buyPrice" placeholder="e.g. 90000" required>
+        
+        <label>Debt (BGN)</label>
+        <input type="number" step="any" id="debt" placeholder="e.g. 50000" required>
+        
+        <label>Target Profit (BGN)</label>
+        <input type="number" step="any" id="targetProfit" placeholder="e.g. 75000" required>
+        
+        <label>Target BTC</label>
+        <input type="number" step="any" id="targetBtc" placeholder="e.g. 0.5" required>
+        
+        <label>Fee Percent</label>
+        <input type="number" step="any" id="feePercent" placeholder="e.g. 1.0" required>
+      </div>
+      <button type="submit">Run Simulation</button>
+    </form>
     <pre id="output"></pre>
   </div>
   <script src="script.js"></script>
-</body
+</body>
+</html>
