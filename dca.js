@@ -10,7 +10,7 @@ document.getElementById('dcaForm').addEventListener('submit', async function (e)
   } catch (error) {
     console.error("Failed to fetch exchange rate:", error);
     alert("Error fetching exchange rate. Using fallback rate: 1.80 BGN/USD.");
-    usdToBgn = 1.80; // Fallback rate
+    usdToBgn = 1.73; // Fallback rate
   }
 
   // Proceed with calculations
