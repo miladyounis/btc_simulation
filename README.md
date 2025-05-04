@@ -1,10 +1,5 @@
 # BTC Sell/Buyback Simulation Tool
 
-This is a personal tool to simulate selling and rebuying BTC for the purpose of:
-- Paying off debt
-- Taking profit
-- Minimizing long-term BTC loss
-
 ## 🔍 Use Case
 
 Created specifically to plan out:
