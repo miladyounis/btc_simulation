@@ -3,38 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <title>DCA Planner</title>
-  <style>
-    .output { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
-    .error { color: red; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>DCA Planner</h1>
-  <form id="dcaForm">
-    <div>
-      <label>Monthly Investment (BGN)</label>
-      <input type="number" id="monthlyInvestment" value="500" required>
-    </div>
-    <div>
-      <label>Duration (Months)</label>
-      <input type="number" id="duration" value="12" required>
-    </div>
-    <div>
-      <label>BTC Price (USD)</label>
-      <input type="number" id="btcPrice" value="50000" required>
-    </div>
-    <button type="submit">Calculate</button>
-  </form>
-  <div id="dcaOutput" class="output">Results will appear here</div>
+  <nav>
+    <ul>
+      <li><a href="index.html">BTC Sell/Buyback Simulator</a></li>
+      <li><a href="dca_page.html">DCA Planner</a></li>
+    </ul>
+  </nav>
+  <div class="container">
+    <h1>DCA (Dollar-Cost Averaging) Planner</h1>
+    <form id="dcaForm">
+      <div class="input-group">
+        <label>Monthly Investment (BGN)</label>
+        <input type="number" step="any" id="monthlyInvestment" placeholder="e.g. 500" required>
+        
+        <label>Investment Duration (Months)</label>
+        <input type="number" step="any" id="duration" placeholder="e.g. 12" required>
+        
+        <label>BTC Price (USD)</label>
+        <input type="number" step="any" id="btcPrice" placeholder="e.g. 90000" required>
+      </div>
+      <button type="submit">Calculate</button>
+    </form>
+    <div id="dcaOutput" class="output"></div>
+  </div>
 
-  <!-- INLINE SCRIPT - This will 100% work -->
   <script>
     document.getElementById('dcaForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      console.log('Form submitted!'); // Check browser console for this
       
       const output = document.getElementById('dcaOutput');
-      output.innerHTML = 'Calculating...';
+      output.innerHTML = '<p>Calculating...</p>';
       
       try {
         // Get form values
@@ -48,26 +49,41 @@
           const response = await fetch('https://api.frankfurter.app/latest?from=USD&to=BGN');
           const data = await response.json();
           usdToBgn = data.rates.BGN;
-          console.log('Got exchange rate:', usdToBgn);
         } catch (error) {
-          console.log('Using fallback rate');
+          console.log('Using fallback exchange rate');
         }
         
-        // Calculate
+        // Calculate results
         const monthlyUSD = monthlyInvestment / usdToBgn;
         const monthlyBTC = monthlyUSD / btcPrice;
         const totalBTC = monthlyBTC * duration;
         const totalInvestedBGN = monthlyInvestment * duration;
         
-        // Show results
+        // Format output to match your design
         output.innerHTML = `
-          <p>Exchange Rate: 1 USD = ${usdToBgn.toFixed(2)} BGN</p>
-          <p>Total Invested: ${totalInvestedBGN.toFixed(2)} BGN</p>
-          <p>BTC Accumulated: ${totalBTC.toFixed(8)}</p>
+          <div class="result-item">
+            <span class="result-label">Exchange Rate:</span>
+            <span class="result-value">1 USD = ${usdToBgn.toFixed(4)} BGN</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Total Invested:</span>
+            <span class="result-value">${totalInvestedBGN.toFixed(2)} BGN</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Estimated BTC:</span>
+            <span class="result-value">${totalBTC.toFixed(8)} BTC</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Monthly BTC:</span>
+            <span class="result-value">${monthlyBTC.toFixed(8)} BTC</span>
+          </div>
         `;
       } catch (error) {
-        output.innerHTML = `<p class="error">Error: ${error.message}</p>`;
-        console.error(error);
+        output.innerHTML = `
+          <div class="error">
+            ❌ Error: ${error.message}
+          </div>
+        `;
       }
     });
   </script>
