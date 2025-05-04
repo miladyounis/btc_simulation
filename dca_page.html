@@ -16,17 +16,27 @@
   <form id="dcaForm">
     <div class="input-group">
       <label>Monthly Investment (BGN)</label>
-      <input type="number" step="any" id="monthlyInvestment" placeholder="e.g. 500" required>
+      <input type="number" step="any" id="monthlyInvestment" placeholder="e.g. 500" required value="500">
       
       <label>Investment Duration (Months)</label>
-      <input type="number" step="any" id="duration" placeholder="e.g. 12" required>
+      <input type="number" step="any" id="duration" placeholder="e.g. 12" required value="12">
       
       <label>Current BTC Price (USD)</label>
-      <input type="number" step="any" id="btcPrice" placeholder="e.g. 90000" required>
+      <input type="number" step="any" id="btcPrice" placeholder="e.g. 90000" required value="50000">
     </div>
     <button type="submit">Calculate</button>
   </form>
   <div id="dcaOutput" class="output"></div>
-  <script src="dca.js"></script>
+  
+  <!-- Updated script loading with error handling -->
+  <script>
+    // Error handler for script loading
+    window.addEventListener('error', function(e) {
+      console.error('Script loading error:', e);
+      document.getElementById('dcaOutput').innerHTML = 
+        '<p class="error">Error loading calculator. Please check console.</p>';
+    });
+  </script>
+  <script src="dca.js" defer></script>
 </body>
 </html>
