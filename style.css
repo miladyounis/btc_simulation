@@ -52,3 +52,9 @@ pre {
   white-space: pre-wrap;
   margin-top: 20px;
 }
+
+.input-group {
+  display: grid;
+  grid-template-columns: 1fr; /* Stack inputs vertically */
+  gap: 0.8rem; /* Spacing between inputs */
+}
