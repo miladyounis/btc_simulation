@@ -47,6 +47,10 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
   const requiredSell = +((targetProfitUsd + btcSold * buyPrice * (1 + feePercent / 100)) / (btcSold * (1 - feePercent / 100))).toFixed(2);
   const requiredBuy = +((btcSold * sellPrice * (1 - feePercent / 100) - targetProfitUsd) / (btcSold * (1 + feePercent / 100))).toFixed(2);
 
+  // 🔢 Calculate max BTC buyback to still meet profit goal
+  const maxUsdCost = +(usdFromSale - targetProfitUsd).toFixed(2);
+  const maxBtcBuy = +((maxUsdCost / buyPrice) / (1 + feePercent / 100)).toFixed(8);
+
   const out = `
 ==================================================
 **BTC TRADING SIMULATION**
@@ -62,6 +66,9 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
 
 ✅ Profit: $${profitUsd} USD | ${profitBgn} BGN
 🔮 Final BTC: ${targetBtc.toFixed(8)}
+
+📈 Max Buyback for Target Profit
+- Max BTC you can buy back and still hit ${targetProfit} BGN profit: ${maxBtcBuy.toFixed(8)} BTC
 
 ⚡ Risk Analysis
 - 0.5 BTC at buyback price = ${valueBuyBgn} BGN
