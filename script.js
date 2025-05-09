@@ -85,10 +85,7 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
 
   // Calculate max BTC buyback to meet profit goal
   const maxUsdCost = +(usdFromSale - targetProfitUsd).toFixed(2);
-  if (maxUsdCost < 0) {
-    return (document.getElementById("output").innerText = "❌ Error: Target profit is unattainable with current sale proceeds.");
-  }
-  const maxBtcBuy = +((maxUsdCost / buyPrice) / (1 + feePercent / 100)).toFixed(8);
+  const maxBtcBuy = maxUsdCost >= 0 ? +((maxUsdCost / buyPrice) / (1 + feePercent / 100)).toFixed(8) : 0;
   const finalBtcAfterMaxBuyback = +(btcAfterSale + maxBtcBuy).toFixed(8);
 
   // Generate output
@@ -113,7 +110,7 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
 - LTV: ${ltv}% ${ltv > 60 ? "🚨 WARNING: Over 60%!" : ""}
 
 📈 Max Buyback for Target Profit
-- Max BTC you can buy back and still hit ${targetProfit.toLocaleString()} BGN profit: ${maxBtcBuy.toFixed(8)} BTC
+- Max BTC you can buy back and still hit ${targetProfit.toLocaleString()} BGN profit: ${maxBtcBuy.toFixed(8)} BTC${maxUsdCost < 0 ? " (Target profit unattainable with current sale proceeds)" : ""}
 - Final BTC after max buyback: ${finalBtcAfterMaxBuyback.toFixed(8)} BTC
 
 🎯 Profit Target
