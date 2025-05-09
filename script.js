@@ -13,6 +13,7 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
     usdToBgn = 1.80; // Fallback rate
   }
 
+  // Retrieve and validate inputs
   const currentBtc = parseFloat(document.getElementById("currentBtc").value);
   const minBtc = parseFloat(document.getElementById("minBtc").value);
   const sellPrice = parseFloat(document.getElementById("sellPrice").value);
@@ -22,36 +23,75 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
   const targetBtc = parseFloat(document.getElementById("targetBtc").value);
   const feePercent = parseFloat(document.getElementById("feePercent").value);
 
-  const btcSold = +(currentBtc - minBtc).toFixed(8);
-  if (btcSold <= 0) return (document.getElementById("output").innerText = "❌ Error: Not enough BTC to sell.");
+  // Input validation
+  if (isNaN(currentBtc) || currentBtc < 0) {
+    return (document.getElementById("output").innerText = "❌ Error: Current BTC must be a non-negative number.");
+  }
+  if (isNaN(minBtc) || minBtc < 0) {
+    return (document.getElementById("output").innerText = "❌ Error: Minimum BTC must be a non-negative number.");
+  }
+  if (isNaN(sellPrice) || sellPrice <= 0) {
+    return (document.getElementById("output").innerText = "❌ Error: Sell price must be a positive number.");
+  }
+  if (isNaN(buyPrice) || buyPrice <= 0) {
+    return (document.getElementById("output").innerText = "❌ Error: Buy price must be a positive number.");
+  }
+  if (isNaN(debt) || debt < 0) {
+    return (document.getElementById("output").innerText = "❌ Error: Debt must be a non-negative number.");
+  }
+  if (isNaN(targetProfit) || targetProfit < 0) {
+    return (document.getElementById("output").innerText = "❌ Error: Target profit must be a non-negative number.");
+  }
+  if (isNaN(targetBtc) || targetBtc < 0) {
+    return (document.getElementById("output").innerText = "❌ Error: Target BTC must be a non-negative number.");
+  }
+  if (isNaN(feePercent) || feePercent < 0 || feePercent > 100) {
+    return (document.getElementById("output").innerText = "❌ Error: Fee percentage must be between 0 and 100.");
+  }
 
+  // Calculate BTC to sell
+  const btcSold = +(currentBtc - minBtc).toFixed(8);
+  if (btcSold <= 0) {
+    return (document.getElementById("output").innerText = "❌ Error: Not enough BTC to sell (current BTC must be greater than minimum BTC).");
+  }
+
+  // Calculate sale proceeds
   const usdFromSale = +(btcSold * sellPrice * (1 - feePercent / 100)).toFixed(2);
   const bgnFromSale = +(usdFromSale * usdToBgn).toFixed(2);
   const btcAfterSale = +(currentBtc - btcSold).toFixed(8);
 
+  // Calculate buyback costs
   const btcToBuy = +(targetBtc - btcAfterSale).toFixed(8);
+  if (btcToBuy < 0) {
+    return (document.getElementById("output").innerText = "❌ Error: Target BTC is less than BTC after sale. No buyback needed.");
+  }
   const usdCost = +(btcToBuy * buyPrice * (1 + feePercent / 100)).toFixed(2);
   const bgnCost = +(usdCost * usdToBgn).toFixed(2);
 
+  // Calculate profit
   const profitUsd = +(usdFromSale - usdCost).toFixed(2);
   const profitBgn = +(bgnFromSale - bgnCost).toFixed(2);
 
-  const valueBuyBgn = +(targetBtc * buyPrice * usdToBgn).toFixed(2);
+  // Risk analysis
   const crashPrice = +(buyPrice * 0.8).toFixed(2);
   const crashBgn = +(targetBtc * crashPrice * usdToBgn).toFixed(2);
-
   const collateral = +(currentBtc * buyPrice * usdToBgn).toFixed(2);
   const ltv = collateral > 0 ? +(debt / collateral * 100).toFixed(1) : 0;
 
+  // Profit target calculations
   const targetProfitUsd = +(targetProfit / usdToBgn).toFixed(2);
   const requiredSell = +((targetProfitUsd + btcSold * buyPrice * (1 + feePercent / 100)) / (btcSold * (1 - feePercent / 100))).toFixed(2);
   const requiredBuy = +((btcSold * sellPrice * (1 - feePercent / 100) - targetProfitUsd) / (btcSold * (1 + feePercent / 100))).toFixed(2);
 
-  // 🔢 Calculate max BTC buyback to still meet profit goal
+  // Calculate max BTC buyback to meet profit goal
   const maxUsdCost = +(usdFromSale - targetProfitUsd).toFixed(2);
+  if (maxUsdCost < 0) {
+    return (document.getElementById("output").innerText = "❌ Error: Target profit is unattainable with current sale proceeds.");
+  }
   const maxBtcBuy = +((maxUsdCost / buyPrice) / (1 + feePercent / 100)).toFixed(8);
   const finalBtcAfterMaxBuyback = +(btcAfterSale + maxBtcBuy).toFixed(8);
 
+  // Generate output
   const out = `
 ==================================================
 **BTC TRADING SIMULATION**
