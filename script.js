@@ -50,6 +50,7 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
   // 🔢 Calculate max BTC buyback to still meet profit goal
   const maxUsdCost = +(usdFromSale - targetProfitUsd).toFixed(2);
   const maxBtcBuy = +((maxUsdCost / buyPrice) / (1 + feePercent / 100)).toFixed(8);
+  const finalBtcAfterMaxBuyback = +(btcAfterSale + maxBtcBuy).toFixed(8);
 
   const out = `
 ==================================================
@@ -69,6 +70,7 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
 
 📈 Max Buyback for Target Profit
 - Max BTC you can buy back and still hit ${targetProfit} BGN profit: ${maxBtcBuy.toFixed(8)} BTC
+- Final BTC after max buyback: ${finalBtcAfterMaxBuyback.toFixed(8)} BTC
 
 ⚡ Risk Analysis
 - 0.5 BTC at buyback price = ${valueBuyBgn} BGN
