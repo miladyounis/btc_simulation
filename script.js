@@ -80,8 +80,8 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
 
   // Profit target calculations
   const targetProfitUsd = +(targetProfit / usdToBgn).toFixed(2);
-  const requiredSell = +((targetProfitUsd + btcSold * buyPrice * (1 + feePercent / 100)) / (btcSold * (1 - feePercent / 100))).toFixed(2);
-  const requiredBuy = +((btcSold * sellPrice * (1 - feePercent / 100) - targetProfitUsd) / (btcSold * (1 + feePercent / 100))).toFixed(2);
+  const requiredSell = +((targetProfitUsd + (btcToBuy * buyPrice * (1 + feePercent / 100))) / (btcSold * (1 - feePercent / 100))).toFixed(2);
+  const requiredBuy = +((btcSold * sellPrice * (1 - feePercent / 100) - targetProfitUsd) / (btcToBuy * (1 + feePercent / 100))).toFixed(2);
 
   // Calculate max BTC buyback to meet profit goal
   const maxUsdCost = +(usdFromSale - targetProfitUsd).toFixed(2);
@@ -102,23 +102,23 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
 - Exchange Rate: 1 USD = ${usdToBgn.toFixed(4)} BGN (auto-fetched)
 
 💸 Trade Execution
-- Sold ${btcSold.toFixed(8)} BTC @ $${sellPrice} → $${usdFromSale} | ${bgnFromSale} BGN (after ${feePercent}% fee)
-- Buyback ${btcToBuy.toFixed(8)} BTC @ $${buyPrice} → $${usdCost} | ${bgnCost} BGN
+- Sold ${btcSold.toFixed(8)} BTC @ $${sellPrice.toLocaleString()} → $${usdFromSale.toLocaleString()} | ${bgnFromSale.toLocaleString()} BGN (after ${feePercent}% fee)
+- Buyback ${btcToBuy.toFixed(8)} BTC @ $${buyPrice.toLocaleString()} → $${usdCost.toLocaleString()} | ${bgnCost.toLocaleString()} BGN
 
-✅ Profit: $${profitUsd} USD | ${profitBgn} BGN
+✅ Profit: $${profitUsd.toLocaleString()} USD | ${profitBgn.toLocaleString()} BGN
 🔮 Final BTC: ${targetBtc.toFixed(8)}
 
 ⚡ Risk Analysis
-- If BTC drops 20%: ${crashBgn} BGN ($${crashPrice})
+- If BTC drops 20%: ${crashBgn.toLocaleString()} BGN ($${crashPrice.toLocaleString()})
 - LTV: ${ltv}% ${ltv > 60 ? "🚨 WARNING: Over 60%!" : ""}
 
 📈 Max Buyback for Target Profit
-- Max BTC you can buy back and still hit ${targetProfit} BGN profit: ${maxBtcBuy.toFixed(8)} BTC
+- Max BTC you can buy back and still hit ${targetProfit.toLocaleString()} BGN profit: ${maxBtcBuy.toFixed(8)} BTC
 - Final BTC after max buyback: ${finalBtcAfterMaxBuyback.toFixed(8)} BTC
 
 🎯 Profit Target
-- Required SELL price for ${targetProfit} BGN profit: $${requiredSell}
-- Required BUYBACK price for ${targetProfit} BGN profit: $${requiredBuy}
+- Required SELL price for ${targetProfit.toLocaleString()} BGN profit: $${requiredSell.toLocaleString()}
+- Required BUYBACK price for ${targetProfit.toLocaleString()} BGN profit: $${requiredBuy.toLocaleString()}
 ==================================================
 `;
 
