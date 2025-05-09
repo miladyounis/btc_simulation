@@ -108,13 +108,13 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
 ✅ Profit: $${profitUsd} USD | ${profitBgn} BGN
 🔮 Final BTC: ${targetBtc.toFixed(8)}
 
-📈 Max Buyback for Target Profit
-- Max BTC you can buy back and still hit ${targetProfit} BGN profit: ${maxBtcBuy.toFixed(8)} BTC
-- Final BTC after max buyback: ${finalBtcAfterMaxBuyback.toFixed(8)} BTC
-
 ⚡ Risk Analysis
 - If BTC drops 20%: ${crashBgn} BGN ($${crashPrice})
 - LTV: ${ltv}% ${ltv > 60 ? "🚨 WARNING: Over 60%!" : ""}
+
+📈 Max Buyback for Target Profit
+- Max BTC you can buy back and still hit ${targetProfit} BGN profit: ${maxBtcBuy.toFixed(8)} BTC
+- Final BTC after max buyback: ${finalBtcAfterMaxBuyback.toFixed(8)} BTC
 
 🎯 Profit Target
 - Required SELL price for ${targetProfit} BGN profit: $${requiredSell}
