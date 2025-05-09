@@ -90,9 +90,6 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
 
   // Generate output
   const out = `
-==================================================
-**BTC TRADING SIMULATION**
-==================================================
 📊 Current Holdings
 - Current BTC: ${currentBtc.toFixed(8)}
 - Debt: ${debt.toLocaleString()} BGN
@@ -108,7 +105,7 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
 ⚡ Risk Analysis
 - If BTC drops 20%: ${crashBgn.toLocaleString()} BGN ($${crashPrice.toLocaleString()})
 - LTV: ${ltv}% ${ltv > 60 ? "🚨 WARNING: Over 60%!" : ""}
-
+===============================================================================================
 📈 Max Buyback for Target Profit
 - Max BTC you can buy back and still hit ${targetProfit.toLocaleString()} BGN profit: ${maxBtcBuy.toFixed(8)} BTC${maxUsdCost < 0 ? " (Target profit unattainable with current sale proceeds)" : ""}
 - Final BTC after max buyback: ${finalBtcAfterMaxBuyback.toFixed(8)} BTC
@@ -116,7 +113,6 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
 🎯 Profit Target
 - Required SELL price for ${targetProfit.toLocaleString()} BGN profit: $${requiredSell.toLocaleString()}
 - Required BUYBACK price for ${targetProfit.toLocaleString()} BGN profit: $${requiredBuy.toLocaleString()}
-==================================================
 `;
 
   document.getElementById("output").innerText = out;
