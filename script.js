@@ -73,7 +73,6 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
 - Final BTC after max buyback: ${finalBtcAfterMaxBuyback.toFixed(8)} BTC
 
 ⚡ Risk Analysis
-- 0.5 BTC at buyback price = ${valueBuyBgn} BGN
 - If BTC drops 20%: ${crashBgn} BGN ($${crashPrice})
 - LTV: ${ltv}% ${ltv > 60 ? "🚨 WARNING: Over 60%!" : ""}
 
