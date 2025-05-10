@@ -88,6 +88,10 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
   const maxBtcBuy = maxUsdCost >= 0 ? +((maxUsdCost / buyPrice) / (1 + feePercent / 100)).toFixed(8) : 0;
   const finalBtcAfterMaxBuyback = +(btcAfterSale + maxBtcBuy).toFixed(8);
 
+  // BTC if reinvesting all sale proceeds (no profit)
+  const btcWithNoProfit = +((usdFromSale / buyPrice) / (1 + feePercent / 100)).toFixed(8);
+  const finalBtcNoProfit = +(btcAfterSale + btcWithNoProfit).toFixed(8);
+
   // Generate output
   const out = `
 📊 Current Holdings
@@ -109,6 +113,7 @@ document.getElementById("btcForm").addEventListener("submit", async function (e)
 📈 Max Buyback for Target Profit
 - Max BTC you can buy back and still hit ${targetProfit.toLocaleString()} BGN profit: ${maxBtcBuy.toFixed(8)} BTC${maxUsdCost < 0 ? " (Target profit unattainable with current sale proceeds)" : ""}
 - Final BTC after max buyback: ${finalBtcAfterMaxBuyback.toFixed(8)} BTC
+- Final BTC if rebuying ALL with no profit: ${finalBtcNoProfit.toFixed(8)} BTC
 
 🎯 Profit Target
 - Required SELL price for ${targetProfit.toLocaleString()} BGN profit: $${requiredSell.toLocaleString()}
